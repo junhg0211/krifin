@@ -76,8 +76,9 @@ function updateLineNumber(code, lineNumber) {
     lineNumber.scrollTo(0, code.scrollTop);
 }
 
+let code;
 document.addEventListener("DOMContentLoaded", () => {
-    const code = document.querySelector("#code");
+    code = document.querySelector("#code");
     const lineNumber = document.querySelector("#line-number");
     const stdout = document.querySelector("#stdout");
 
@@ -168,6 +169,8 @@ function askStdin() {
 let inputStack;
 function closeStdin() {
     stdinPromptBackground.style.display = "none";
+
+    code.focus();
 
     inputStack = stdinPrompt.value.split(/\n/g).reverse();
     runit(true);
