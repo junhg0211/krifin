@@ -147,7 +147,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     
     stdinPrompt.addEventListener("keypress", e => {
-        console.log(e);
         if (e.key === "Enter" && e.ctrlKey) {
             closeStdin();
         }
