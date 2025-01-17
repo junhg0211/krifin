@@ -82,6 +82,7 @@ let lineNumber;
 document.addEventListener("DOMContentLoaded", () => {
     code = document.querySelector("#code");
     lineNumber = document.querySelector("#line-number");
+    stdout = document.querySelector("#stdout");
 
     code.addEventListener("keypress", e => {
         if (e.key === "Enter" && e.ctrlKey) {
@@ -125,4 +126,9 @@ document.addEventListener("DOMContentLoaded", () => {
     code.addEventListener('scroll', () => {
         updateLineNumber(code, lineNumber);
     })
+
+    const platform = window.navigator.platform;
+    if (platform.substring(0, 3) === "Mac") {
+        stdout.placeholder = "Command + Enter to run";
+    }
 });
