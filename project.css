@@ -23,6 +23,8 @@ body {
 .code {
     height: calc(80vh - 2 * 6px);
     flex: 1;
+    white-space: pre;
+    overflow-wrap: normal;
 }
 
 .stdout {
