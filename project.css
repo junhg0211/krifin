@@ -3,12 +3,20 @@ body {
     overflow: hidden;
 }
 
-.code {
+.textarea {
     border: none;
     padding: 12px;
-
+    resize: none;
     width: calc(100% - 2 * 12px);
-    height: 100vh;
+}
+
+.code {
+    height: calc(80vh - 2 * 12px);
+}
+
+.stdout {
+    color: black;
+    height: calc(20vh - 2 * 12px);
 }
 
 .code:focus {
