@@ -16,8 +16,19 @@
     </div>
     <div class="control-area">
         <span class="button" id="run-button">&nbsp;Run&nbsp;</span>
+        <span class="button" id="run-with-stdin-button">&nbsp;Run with stdin&nbsp;</span>
     </div>
     <textarea class="textarea stdout" id="stdout" spellcheck="false" disabled placeholder="Ctrl + Enter to run"></textarea>
+
+    <div class="stdin-prompt-background" id="stdin-prompt-background" style="display: none">
+        <div class="stdin-prompt">
+            <div>Run with stdin</div>
+            <textarea class="textarea" id="stdin-prompt" placeholder="2 3&#10;30 40 50&#10;60 70 80"></textarea>
+            <div>
+                <span class="button" id="runin-button">&nbsp;Run&nbsp;</span>
+            </div>
+        </div>
+    </div>
 
     <script src="js/skulpt.js"></script>
     <script src="js/skulpt.min.js" type="text/javascript"></script>

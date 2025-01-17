@@ -83,7 +83,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     code.addEventListener("keypress", e => {
         if (e.key === "Enter" && e.ctrlKey) {
-            runit();
+            if (e.shiftKey) {
+                askStdin();
+            } else {
+                runit();
+            }
         }
 
         updateLineNumber(code, lineNumber);
@@ -133,4 +137,38 @@ document.addEventListener("DOMContentLoaded", () => {
     runButton.addEventListener("click", () => {
         runit();
     });
+
+    stdinPromptBackground = document.querySelector("#stdin-prompt-background");
+    stdinPrompt = document.querySelector("#stdin-prompt");
+    const runStdinButton = document.querySelector("#run-with-stdin-button");
+    runStdinButton.addEventListener("click", () => {
+        askStdin();
+    });
+    
+    stdinPrompt.addEventListener("keypress", e => {
+        console.log(e);
+        if (e.key === "Enter" && e.ctrlKey) {
+            closeStdin();
+        }
+    });
+
+    const stdinRunButton = document.querySelector("#runin-button");
+    stdinRunButton.addEventListener("click", () => {
+        closeStdin();
+    });
 });
+
+let stdinPromptBackground;
+let stdinPrompt;
+function askStdin() {
+    stdinPromptBackground.style.display = "block";
+    stdinPrompt.focus();
+}
+
+let inputStack;
+function closeStdin() {
+    stdinPromptBackground.style.display = "none";
+
+    inputStack = stdinPrompt.value.split(/\n/g).reverse();
+    runit(true);
+}
