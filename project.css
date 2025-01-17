@@ -18,8 +18,9 @@ body {
 }
 
 .line-number {
-    width: 20px;
+    width: 48px;
     overflow: hidden;
+    padding-right: 0;
 }
 
 .code {
@@ -27,6 +28,7 @@ body {
     flex: 1;
     white-space: pre;
     overflow-wrap: normal;
+    padding-left: 0;
 }
 
 .control-area {
