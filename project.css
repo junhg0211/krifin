@@ -1,0 +1,16 @@
+body {
+    margin: 0;
+    overflow: hidden;
+}
+
+.code {
+    border: none;
+    padding: 12px;
+
+    width: calc(100% - 2 * 12px);
+    height: 100vh;
+}
+
+.code:focus {
+    outline: none;
+}
