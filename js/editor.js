@@ -76,13 +76,10 @@ function updateLineNumber(code, lineNumber) {
     lineNumber.scrollTo(0, code.scrollTop);
 }
 
-let code;
-let lineNumber;
-
 document.addEventListener("DOMContentLoaded", () => {
-    code = document.querySelector("#code");
-    lineNumber = document.querySelector("#line-number");
-    stdout = document.querySelector("#stdout");
+    const code = document.querySelector("#code");
+    const lineNumber = document.querySelector("#line-number");
+    const stdout = document.querySelector("#stdout");
 
     code.addEventListener("keypress", e => {
         if (e.key === "Enter" && e.ctrlKey) {
@@ -131,4 +128,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (platform.substring(0, 3) === "Mac") {
         stdout.placeholder = "Command + Enter to run";
     }
+
+    const runButton = document.querySelector("#run-button");
+    runButton.addEventListener("click", () => {
+        runit();
+    });
 });

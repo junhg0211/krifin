@@ -1,6 +1,7 @@
 body {
     margin: 0;
     overflow: hidden;
+    font-family: "D2Coding", "Consolas", 'Courier New', Courier, monospace;
 }
 
 .code-area {
@@ -13,6 +14,7 @@ body {
     padding: 6px 12px;
     resize: none;
     display: block;
+    font-family: "D2Coding", "Consolas", 'Courier New', Courier, monospace;
 }
 
 .line-number {
@@ -21,10 +23,26 @@ body {
 }
 
 .code {
-    height: calc(80vh - 2 * 6px);
+    height: calc(80vh - 2 * 6px - 16px);
     flex: 1;
     white-space: pre;
     overflow-wrap: normal;
+}
+
+.control-area {
+    padding-left: 12px;
+    font-size: 16px;
+}
+
+.control-area .button {
+    background-color: #3254a8;
+    color: white;
+}
+
+.control-area .button:hover {
+    background-color: #192869;
+    color: white;
+    cursor: pointer;
 }
 
 .stdout {
