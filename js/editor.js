@@ -1,18 +1,15 @@
 function insertAtCursor(myField, myValue) {
-    if (document.selection) { // IE SUPPORT
-        myField.focus();
-        const sel = document.selection.createRange();
-        sel.text = myValue;
-    } else if (myField.selectionStart) { // MOZILLA AND OTHERS
-        var startPos = myField.selectionStart;
-        var endPos = myField.selectionEnd;
+    if (myField.selectionStart) { // MOZILLA AND OTHERS
+        const startPos = myField.selectionStart;
+        const endPos = myField.selectionEnd;
         myField.value = myField.value.substring(0, startPos)
             + myValue
             + myField.value.substring(endPos, myField.value.length);
         myField.selectionEnd = endPos + 4;
-    } else {
-        myField.value += myValue;
+        return;
     }
+
+    myField.value += myValue;
 }
 
 function isRemovingTab(field) {
@@ -33,34 +30,65 @@ function isRemovingTab(field) {
 }
 
 function removeTab(field) {
-    if (document.selection) {
-        field.focus();
-        const sel = document.selection.createRange();
-        sel.text = "";
-    }
-    else if (field.selectionStart || field.selectionStart === "0") {
+    if (field.selectionStart || field.selectionStart === "0") {
         const startPos = field.selectionStart;
         const endPos = field.selectionEnd;
 
         field.value = field.value.substring(0, startPos - 4)
-            + field.value.substring(endPos, field.value.length);
+            + field.value.substring(endPos);
         field.selectionEnd = endPos - 4;
-    } else {
-        field.value = field.value.substring(0, field.value.length - 4);
+        return;
     }
 
-    return false;
+    field.value = field.value.substring(0, field.value.length - 4);
+}
+
+function updateLineNumber(code, lineNumber) {
+    lineNumber.value = "";
+
+    const startPos = code.selectionStart;
+    const endPos = code.selectionEnd;
+
+    const startLbs = (code.value.substring(0, startPos).match(/\n/g) || []).length;
+    const middleLbs = (code.value.substring(startPos, endPos).match(/\n/g) || []).length;
+    const endLbs = (code.value.substring(endPos).match(/\n/g) || []).length;
+
+    // -- update line number
+    for (let i = 1; i <= startLbs; i++) {
+        lineNumber.value += ` ${startLbs - i + 1}\n`;
+    }
+
+    if (middleLbs === 0) {
+        lineNumber.value += `${startLbs + 1}\n`;
+    } else {
+        for (let i = 0; i <= middleLbs; i++) {
+            lineNumber.value += `${startLbs + 1 + i}\n`;
+        }
+    }
+
+    for (let i = 1; i <= endLbs; i++) {
+        lineNumber.value += ` ${i}\n`;
+    }
+
+    lineNumber.value = lineNumber.value.substring(0, lineNumber.value.length - 1);
+
+    // -- update scroll
+    lineNumber.scrollTo(0, code.scrollTop);
 }
 
 let code;
+let lineNumber;
 
 document.addEventListener("DOMContentLoaded", () => {
     code = document.querySelector("#code");
+    lineNumber = document.querySelector("#line-number");
 
     code.addEventListener("keypress", e => {
         if (e.key === "Enter" && e.ctrlKey) {
             runit();
         }
+
+        updateLineNumber(code, lineNumber);
     });
 
     code.addEventListener("keydown", e => {
@@ -78,5 +106,23 @@ document.addEventListener("DOMContentLoaded", () => {
             e.preventDefault();
             removeTab(code);
         }
+
+        updateLineNumber(code, lineNumber);
     });
+
+    code.addEventListener('keyup', () => {
+        updateLineNumber(code, lineNumber);
+    })
+
+    code.addEventListener('mousedown', () => {
+        updateLineNumber(code, lineNumber);
+    })
+
+    code.addEventListener('mouseup', () => {
+        updateLineNumber(code, lineNumber);
+    })
+
+    code.addEventListener('scroll', () => {
+        updateLineNumber(code, lineNumber);
+    })
 });

@@ -3,20 +3,32 @@ body {
     overflow: hidden;
 }
 
+.code-area {
+    display: flex;
+    flex-direction: row;
+}
+
 .textarea {
     border: none;
-    padding: 12px;
+    padding: 6px 12px;
     resize: none;
-    width: calc(100% - 2 * 12px);
+    display: block;
+}
+
+.line-number {
+    width: 20px;
+    overflow: hidden;
 }
 
 .code {
-    height: calc(80vh - 2 * 12px);
+    height: calc(80vh - 2 * 6px);
+    flex: 1;
 }
 
 .stdout {
     color: black;
-    height: calc(20vh - 2 * 12px);
+    height: calc(20vh - 2 * 6px);
+    width: calc(100% - 2 * 12px);
 }
 
 .code:focus {
