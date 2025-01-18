@@ -37,6 +37,9 @@ const normalCommands = [
         insertAtCursor(v.target, "\n");
         moveCaret(v.target, 0, -1);
     }},
+    {command: "dd", callback: (v, r) => {
+        removeLine(v.target, r);
+    }},
 ]
 
 class Vim {
@@ -151,4 +154,26 @@ function moveHome(code) {
     const [row] = getCaretPosition(code);
     const indentation = code.value.split(/\n/g)[row-1].match(/^ */)[0].length;
     setCaretPosition(code, row, indentation);
+}
+
+function removeLine(code, count) {
+    const [row] = getCaretPosition(code);
+
+    let lines = code.value.split(/\n/g);
+    for (let i = 0; i < count; i++) {
+        lines.splice(row-1, 1);
+    }
+    lines = lines.reverse();
+
+    let buffer = "";
+    while (lines.length > 0) {
+        buffer += lines.pop();
+
+        if (lines.length > 0) {
+            buffer += "\n";
+        }
+    }
+
+    code.value = buffer;
+    setCaretPosition(code, row, 0);
 }
