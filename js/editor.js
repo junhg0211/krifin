@@ -156,6 +156,11 @@ document.addEventListener("DOMContentLoaded", () => {
     stdinRunButton.addEventListener("click", () => {
         closeStdin();
     });
+
+    const stdinCloseButton = document.querySelector("#closein-button");
+    stdinCloseButton.addEventListener("click", () => {
+        closePrompt();
+    });
 });
 
 let stdinPromptBackground;
@@ -167,10 +172,12 @@ function askStdin() {
 
 let inputStack;
 function closeStdin() {
-    stdinPromptBackground.style.display = "none";
-
-    code.focus();
-
+    closePrompt();
     inputStack = stdinPrompt.value.split(/\n/g).reverse();
     runit(true);
+}
+
+function closePrompt() {
+    stdinPromptBackground.style.display = "none";
+    code.focus();
 }
