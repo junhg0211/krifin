@@ -3,6 +3,7 @@ const INSERT = "INSERT";
 
 const normalCommands = [
     {command: "0", callback: (v) => moveCaret(v.target, -Infinity, 0)},
+    {command: "^", callback: (v) => moveHome(v.target)},
     {command: "h", callback: (v) => moveCaret(v.target, -1, 0)},
     {command: "j", callback: (v) => moveCaret(v.target, 0, 1)},
     {command: "k", callback: (v) => moveCaret(v.target, 0, -1)},
@@ -113,4 +114,10 @@ function setCaretPosition(code, r, c) {
 function moveCaret(code, dx, dy) {
     const [row, col] = getCaretPosition(code);
     setCaretPosition(code, row + dy, col + dx);
+}
+
+function moveHome(code) {
+    const [row] = getCaretPosition(code);
+    const indentation = code.value.split(/\n/g)[row-1].match(/^ */)[0].length;
+    setCaretPosition(code, row, indentation);
 }
