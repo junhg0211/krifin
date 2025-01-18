@@ -1,9 +1,11 @@
+/* default */
 body {
     margin: 0;
     overflow: hidden;
     font-family: "D2Coding", "Consolas", 'Courier New', Courier, monospace;
 }
 
+/* main window */
 .code-area {
     display: flex;
     flex-direction: row;
@@ -23,9 +25,40 @@ body {
     padding-right: 0;
 }
 
+@media screen and (max-width: 960px) { /* smol */
+    .code {
+        height: calc(80vh - 2 * 6px - 16px);
+        flex: 1;
+    }
+
+    .stdout {
+        height: calc(20vh - 2 * 6px);
+        width: calc(100% - 2 * 12px);
+    }
+}
+
+@media screen and (min-width: 960px) { /* large */
+    .main-area {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .code-container {
+        flex: 1;
+    }
+
+    .code {
+        height: calc(100vh - 2 * 6px - 16px);
+        flex: 1;
+    }
+
+    .stdout {
+        height: calc(100vh - 2 * 6px);
+        width: 320px;
+    }
+}
+
 .code {
-    height: calc(80vh - 2 * 6px - 16px);
-    flex: 1;
     white-space: pre;
     overflow-wrap: normal;
     padding-left: 0;
@@ -36,6 +69,17 @@ body {
     font-size: 16px;
 }
 
+.stdout {
+    color: black;
+    white-space: pre;
+    overflow-wrap: normal;
+}
+
+.code:focus {
+    outline: none;
+}
+
+/* button ui */
 .button {
     background-color: #3254a8;
     color: white;
@@ -47,18 +91,7 @@ body {
     cursor: pointer;
 }
 
-.stdout {
-    color: black;
-    height: calc(20vh - 2 * 6px);
-    width: calc(100% - 2 * 12px);
-    white-space: pre;
-    overflow-wrap: normal;
-}
-
-.code:focus {
-    outline: none;
-}
-
+/* stdin prompt */
 .stdin-prompt-background {
     width: 100vw;
     height: 100vh;
