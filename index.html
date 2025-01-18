@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="./project.css">
     <link rel="icon" href="./icon.svg">
+    <script src="js/textarea_vim.js"></script>
     <script src="js/cookie.js"></script>
     <script src="js/editor.js"></script>
     <title>Krifin</title>
@@ -20,6 +21,8 @@
             <div class="control-area">
                 <span class="button" id="run-button">&nbsp;Run&nbsp;</span>
                 <span class="button" id="run-with-stdin-button">&nbsp;Run with stdin&nbsp;</span>
+                <span class="label">&nbsp;<span id="vim-buffer"></span>&nbsp;</span>
+                <span class="label">&nbsp;<span id="vim-mode"></span>&nbsp;</span>
             </div>
         </div>
         <textarea class="textarea stdout" id="stdout" spellcheck="false" disabled placeholder="Ctrl + Enter to run"></textarea>

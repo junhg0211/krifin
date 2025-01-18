@@ -91,6 +91,11 @@ body {
     cursor: pointer;
 }
 
+.label {
+    background-color: #32a852;
+    color: white;
+}
+
 /* stdin prompt */
 .stdin-prompt-background {
     width: 100vw;

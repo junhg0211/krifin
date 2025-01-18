@@ -43,6 +43,9 @@ function removeTab(field) {
     field.value = field.value.substring(0, field.value.length - 4);
 }
 
+let vimBuffer;
+let vimMode;
+let vim;
 function updateLineNumber(code, lineNumber) {
     lineNumber.value = "";
 
@@ -74,6 +77,10 @@ function updateLineNumber(code, lineNumber) {
 
     // -- update scroll
     lineNumber.scrollTo(0, code.scrollTop);
+
+    // -- update vim buffer label
+    if (vim) vimBuffer.innerText = vim.buffer;
+    if (vim) vimMode.innerText = vim.mode;
 }
 
 let stdinPromptBackground;
@@ -117,6 +124,8 @@ document.addEventListener("DOMContentLoaded", () => {
     code = document.querySelector("#code");
     const lineNumber = document.querySelector("#line-number");
     const stdout = document.querySelector("#stdout");
+    vimBuffer = document.querySelector("#vim-buffer");
+    vimMode = document.querySelector("#vim-mode");
 
     code.addEventListener("keypress", e => {
         setCookie("content", code.value);
@@ -154,9 +163,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     code.addEventListener('keyup', (e) => {
+        /*
         if (e.key === "Enter") {
             checkIndentation(code);
         }
+            */
 
         updateLineNumber(code, lineNumber);
     })
@@ -216,4 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
             updateLineNumber(code, lineNumber);
         }
     });
+
+    // -- vim
+    vim = new Vim(code);
 });
