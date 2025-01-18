@@ -95,6 +95,23 @@ function closePrompt() {
     code.focus();
 }
 
+function checkIndentation(code) {
+    const startPos = code.selectionStart;
+    const endPos = code.selectionEnd;
+
+    if (startPos < endPos) {
+        return;
+    }
+
+    const previousLines = code.value.substring(0, startPos - 1).split(/\n/g);
+    const previousLine = previousLines[previousLines.length - 1];
+
+    const previousLineIndentation = (previousLine.match(/    /g) || []).length + (previousLine[previousLine.length - 1] === ':' ? 1 : 0);
+    for (let i = 0; i < previousLineIndentation; i++) {
+        insertAtCursor(code, "    ");
+    }
+}
+
 let code;
 document.addEventListener("DOMContentLoaded", () => {
     code = document.querySelector("#code");
@@ -136,7 +153,11 @@ document.addEventListener("DOMContentLoaded", () => {
         updateLineNumber(code, lineNumber);
     });
 
-    code.addEventListener('keyup', () => {
+    code.addEventListener('keyup', (e) => {
+        if (e.key === "Enter") {
+            checkIndentation(code);
+        }
+
         updateLineNumber(code, lineNumber);
     })
 
