@@ -79,4 +79,5 @@ body {
 .stdin-prompt .textarea {
     width: calc(100% - 2 * 12px);
     height: 240px;
+    margin-bottom: 12px;
 }
