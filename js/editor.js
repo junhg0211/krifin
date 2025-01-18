@@ -194,8 +194,4 @@ document.addEventListener("DOMContentLoaded", () => {
             code.value = value;
         }
     });
-
-    // -- vim
-    const vim = new VIM();
-    vim.attach_to(code);
 });
