@@ -25,6 +25,16 @@ const normalCommands = [
         v.simulateVim("$");
         v.simulateVim("a");
     }},
+    {command: "o", callback: (v) => {
+        v.simulateVim("A");
+        insertAtCursor(v.target, "\n");
+    }},
+    {command: "O", callback: (v) => {
+        v.simulateVim("0");
+        v.simulateVim("i");
+        insertAtCursor(v.target, "\n");
+        moveCaret(v.target, 0, -1);
+    }},
 ]
 
 class Vim {
