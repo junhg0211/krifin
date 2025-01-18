@@ -13,6 +13,18 @@ const normalCommands = [
     {command: "\n", callback: (v) => v.buffer = ""},
     {command: "\b", callback: (v) => v.buffer = ""},
     {command: "i", callback: (v) => v.setMode(INSERT)},
+    {command: "I", callback: (v) => {
+        v.simulateVim("^");
+        v.simulateVim("i");
+    }},
+    {command: "a", callback: (v) => {
+        v.simulateVim("l");
+        v.simulateVim("i");
+    }},
+    {command: "A", callback: (v) => {
+        v.simulateVim("$");
+        v.simulateVim("a");
+    }},
 ]
 
 class Vim {
@@ -40,6 +52,11 @@ class Vim {
                 this.setMode(NORMAL);
             }
         })
+    }
+
+    simulateVim(key) {
+        this.buffer += key;
+        this.flushNormalBuffer();
     }
 
     flushNormalBuffer() {
