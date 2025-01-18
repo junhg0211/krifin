@@ -32,6 +32,7 @@ class Vim {
 
         target.addEventListener("keydown", e => {
             if (e.key === "Escape") {
+                this.buffer = "";
                 this.setMode(NORMAL);
             }
         })
