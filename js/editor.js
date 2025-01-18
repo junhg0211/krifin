@@ -76,6 +76,25 @@ function updateLineNumber(code, lineNumber) {
     lineNumber.scrollTo(0, code.scrollTop);
 }
 
+let stdinPromptBackground;
+let stdinPrompt;
+function askStdin() {
+    stdinPromptBackground.style.display = "block";
+    stdinPrompt.focus();
+}
+
+let inputStack;
+function closeStdin() {
+    closePrompt();
+    inputStack = stdinPrompt.value.split(/\n/g).reverse();
+    runit(true);
+}
+
+function closePrompt() {
+    stdinPromptBackground.style.display = "none";
+    code.focus();
+}
+
 let code;
 document.addEventListener("DOMContentLoaded", () => {
     code = document.querySelector("#code");
@@ -175,23 +194,8 @@ document.addEventListener("DOMContentLoaded", () => {
             code.value = value;
         }
     });
+
+    // -- vim
+    const vim = new VIM();
+    vim.attach_to(code);
 });
-
-let stdinPromptBackground;
-let stdinPrompt;
-function askStdin() {
-    stdinPromptBackground.style.display = "block";
-    stdinPrompt.focus();
-}
-
-let inputStack;
-function closeStdin() {
-    closePrompt();
-    inputStack = stdinPrompt.value.split(/\n/g).reverse();
-    runit(true);
-}
-
-function closePrompt() {
-    stdinPromptBackground.style.display = "none";
-    code.focus();
-}
