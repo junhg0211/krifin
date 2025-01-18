@@ -70,7 +70,7 @@ body {
 
 .stdin-prompt {
     background-color: white;
-    width: 640px;
+    width: 360px;
     margin: auto;
     margin-top: 24px;
     padding: 12px;
@@ -78,5 +78,5 @@ body {
 
 .stdin-prompt .textarea {
     width: calc(100% - 2 * 12px);
-    height: 540px;
+    height: 240px;
 }
