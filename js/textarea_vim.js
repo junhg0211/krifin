@@ -2,13 +2,15 @@ const NORMAL = "NORMAL";
 const INSERT = "INSERT";
 
 const normalCommands = [
-    {command: "0", callback: (v) => moveCaret(v.target, -Infinity, 0)},
+    {command: "gg", callback: (v, r) => setCaretPosition(v.target, r, 0)},
+    {command: "0", callback: (v) => moveCaret(v.target, -Infinity, 0), ignoreNumber: true},
     {command: "^", callback: (v) => moveHome(v.target)},
-    {command: "h", callback: (v) => moveCaret(v.target, -1, 0)},
-    {command: "j", callback: (v) => moveCaret(v.target, 0, 1)},
-    {command: "k", callback: (v) => moveCaret(v.target, 0, -1)},
-    {command: "l", callback: (v) => moveCaret(v.target, 1, 0)},
+    {command: "h", callback: (v, r) => moveCaret(v.target, -r, 0)},
+    {command: "j", callback: (v, r) => moveCaret(v.target, 0, r)},
+    {command: "k", callback: (v, r) => moveCaret(v.target, 0, -r)},
+    {command: "l", callback: (v, r) => moveCaret(v.target, r, 0)},
     {command: "$", callback: (v) => moveCaret(v.target, Infinity, 0)},
+    {command: "G", callback: (v) => moveCaret(v.target, Infinity, Infinity)},
     {command: "\r", callback: (v) => v.buffer = ""},
     {command: "\n", callback: (v) => v.buffer = ""},
     {command: "\b", callback: (v) => v.buffer = ""},
@@ -70,25 +72,27 @@ class Vim {
     }
 
     flushNormalBuffer() {
-        const tokens = this.buffer.match(/(\d*)(.*)(.|\r|\n)/);
+        const tokens = this.buffer.match(/(\d*)(.+|\r|\n)/);
 
         if (tokens === null) {
             return;
         }
 
         const repeats = parseInt(tokens[1]) || 1;
-        const args = tokens[2];
-        const action = tokens[3];
+        const action = tokens[2];
 
         for (let i = 0; i < normalCommands.length; i++) {
             const normalCommand = normalCommands[i];
+
+            if (normalCommand.ignoreNumber && tokens[1]) {
+                continue;
+            }
+
             if (normalCommand.command !== action) {
                 continue;
             }
 
-            for (let j = 0; j < repeats; j++) {
-                normalCommand.callback(this, args);
-            }
+            normalCommand.callback(this, repeats);
 
             this.buffer = "";
             break;
