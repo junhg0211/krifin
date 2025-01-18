@@ -196,6 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
         value = decodeURIComponent(value);
         if (key === "content") {
             code.value = value;
+            code.selectionEnd = 0;
             updateLineNumber(code, lineNumber);
         }
     });

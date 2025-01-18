@@ -16,29 +16,37 @@ const normalCommands = [
     {command: "\b", callback: (v) => v.buffer = ""},
     {command: "i", callback: (v) => v.setMode(INSERT)},
     {command: "I", callback: (v) => {
-        v.simulateVim("^");
-        v.simulateVim("i");
+        moveHome(v.target);
+        v.setMode(INSERT);
     }},
     {command: "a", callback: (v) => {
-        v.simulateVim("l");
-        v.simulateVim("i");
+        moveCaret(v.target, 1, 0);
+        v.setMode(INSERT);
     }},
     {command: "A", callback: (v) => {
-        v.simulateVim("$");
-        v.simulateVim("a");
+        moveCaret(v.target, Infinity, 0);
+        v.setMode(INSERT);
     }},
     {command: "o", callback: (v) => {
-        v.simulateVim("A");
+        moveCaret(v.target, Infinity, 0);
+        v.setMode(INSERT);
         insertAtCursor(v.target, "\n");
     }},
     {command: "O", callback: (v) => {
-        v.simulateVim("0");
-        v.simulateVim("i");
+        moveCaret(v.target, -Infinity, 0);
+        v.setMode(INSERT);
         insertAtCursor(v.target, "\n");
         moveCaret(v.target, 0, -1);
     }},
     {command: "dd", callback: (v, r) => {
         removeLine(v.target, r);
+    }},
+    {command: "S", callback: (v) => {
+        removeLine(v.target);
+        moveCaret(v.target, -Infinity, 0);
+        v.setMode(INSERT);
+        insertAtCursor(v.target, "\n");
+        moveCaret(v.target, 0, -1);
     }},
 ]
 
@@ -157,6 +165,9 @@ function moveHome(code) {
 }
 
 function removeLine(code, count) {
+    if (count === undefined)
+        count = 1;
+
     const [row] = getCaretPosition(code);
 
     let lines = code.value.split(/\n/g);
