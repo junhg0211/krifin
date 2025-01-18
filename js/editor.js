@@ -83,6 +83,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const stdout = document.querySelector("#stdout");
 
     code.addEventListener("keypress", e => {
+        setCookie("content", code.value);
+
         if (e.key === "Enter" && e.ctrlKey) {
             if (e.shiftKey) {
                 askStdin();
@@ -95,6 +97,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     code.addEventListener("keydown", e => {
+        setCookie("content", code.value);
+
         if (e.key === "Tab") {
             e.preventDefault();
 
@@ -160,6 +164,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const stdinCloseButton = document.querySelector("#closein-button");
     stdinCloseButton.addEventListener("click", () => {
         closePrompt();
+    });
+
+    // -- cookie
+    document.cookie.split("; ").forEach((cookie) => {
+        let [key, value] = cookie.split("=");
+
+        value = decodeURIComponent(value);
+        if (key === "content") {
+            code.value = value;
+        }
     });
 });
 
