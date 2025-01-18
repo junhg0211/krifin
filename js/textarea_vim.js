@@ -2,12 +2,15 @@ const NORMAL = "NORMAL";
 const INSERT = "INSERT";
 
 const normalCommands = [
+    {command: "0", callback: (v) => moveCaret(v.target, -Infinity, 0)},
     {command: "h", callback: (v) => moveCaret(v.target, -1, 0)},
     {command: "j", callback: (v) => moveCaret(v.target, 0, 1)},
     {command: "k", callback: (v) => moveCaret(v.target, 0, -1)},
     {command: "l", callback: (v) => moveCaret(v.target, 1, 0)},
+    {command: "$", callback: (v) => moveCaret(v.target, Infinity, 0)},
     {command: "\r", callback: (v) => v.buffer = ""},
     {command: "\n", callback: (v) => v.buffer = ""},
+    {command: "\b", callback: (v) => v.buffer = ""},
     {command: "i", callback: (v) => v.setMode(INSERT)},
 ]
 
@@ -82,23 +85,23 @@ function getCaretPosition(code) {
 
 function setCaretPosition(code, r, c) {
     if (r <= 0) {
-        return;
+        r = 1;
     }
     if (c < 0) {
-        return;
+        c = 0;
     }
 
     const lines = code.value.split(/\n/g);
 
-    if (r > lines.length) {
-        return;
-    }
-
     let previousLength = 0;
-    for (let i = 0; i < r - 1; i++) {
-        previousLength += lines[i].length + 1;
+    if (r > lines.length) {
+        previousLength = code.value.length;
+    } else {
+        for (let i = 0; i < r - 1; i++) {
+            previousLength += lines[i].length + 1;
+        }
+        previousLength += Math.min(lines[r-1].length, c);
     }
-    previousLength += Math.min(lines[r-1].length, c);
 
     code.selectionStart = previousLength;
     code.selectionEnd = previousLength;
