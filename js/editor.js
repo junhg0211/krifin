@@ -218,5 +218,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // -- vimify
-    vimify(code);
+    new Vim(code);
 });
