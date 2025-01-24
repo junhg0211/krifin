@@ -216,4 +216,7 @@ document.addEventListener("DOMContentLoaded", () => {
             updateLineNumber(code, lineNumber);
         }
     });
+
+    // -- vimify
+    vimify(code);
 });
